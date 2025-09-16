@@ -1,6 +1,6 @@
 # Question 2 CarRental-grpc
-A **gRPC-based Car Rental System** implemented in **Ballerina**.  
-Supports two roles: **Customer** and **Admin**.
+A **gRPC-based Car Rental System** which is implemented in **Ballerina**.  
+The system Supports two roles: **Customer** and **Admin**.
 
 ---
 
