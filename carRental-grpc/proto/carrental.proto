@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package carrental;
+
+// Car Records in the system
+ message Car {
+  string id = 1;
+  string make = 2;
+  string model = 3;
+  int32 year = 4;
+  double daily_price = 5;
+  int32 mileage = 6;
+  string status = 7; // available, rented
+}
+
+// User of the system
+message User {
+  string user_id = 1;
+  string name = 2;
+  string role = 3; // admin or customer
+}
+
+// Reservation made by the user
+ message Reservation {
+  string reservation_id = 1;
+  string user_id = 2;
+  string car_id = 3;
+  string start_date = 4;
+  string end_date = 5;
+  double total_price = 6;
+  string status = 7; // active, completed, cancelled
+ }
+
+// Admin operations 
+ message AddCarRequest {
+   Car car = 1; 
+ }
+ message AddCarResponse { 
+  string message = 1; Car car = 2;
+ }
+
+ message UpdateCarRequest { 
+  Car car = 1; 
+ }
+ message UpdateCarResponse { 
+  string message = 1; 
+  Car car = 2; 
+ }
+
+ message RemoveCarRequest { 
+  string car_id = 1; 
+ }
+ message RemoveCarResponse { 
+  string message = 1; 
+ }
+
+// Customer operations
+ message ListAvailableCarsRequest { 
+  string filter = 1; 
+ }
+ message ListAvailableCarsResponse { 
+  repeated Car cars = 1; 
+ }
+
+ message SearchCarRequest { 
+  string car_id = 1; 
+ }
+ message SearchCarResponse { 
+  Car car = 1; 
+ }
+
+ message ReservationRequest {
+  string user_id = 1;
+  string car_id = 2;
+  string start_date = 3;
+  string end_date = 4;
+ }
+ message ReservationResponse { 
+  string message = 1; 
+  Reservation reservation = 2; 
+ }
+
+ message CancelReservationRequest { 
+  string reservation_id = 1; 
+ }
+ message CancelReservationResponse { 
+  string message = 1; 
+ }
+
+// Cart & Checkout 
+ message AddToCartRequest {
+   string user_id = 1; 
+   string car_id = 2; 
+ }
+ message AddToCartResponse { 
+   string message = 1; 
+ }
+
+ message PlaceReservationRequest { 
+   string user_id = 1; 
+   repeated string car_ids = 2; 
+ }
+ message PlaceReservationResponse { 
+   string message = 1; 
+   repeated Reservation reservations = 2; 
+ }
+
+// Users batch creation 
+ message CreateUsersRequest { 
+   repeated User users = 1; 
+ }
+ message CreateUsersResponse { 
+   string message = 1; 
+ }
+
+// Service 
+ service CarRentalService {
+    // Admin
+  rpc AddCar(AddCarRequest) returns (AddCarResponse);
+  rpc UpdateCar(UpdateCarRequest) returns (UpdateCarResponse);
+  rpc RemoveCar(RemoveCarRequest) returns (RemoveCarResponse);
+
+    // Customer
+  rpc ListAvailableCars(ListAvailableCarsRequest) returns (ListAvailableCarsResponse);
+  rpc SearchCar(SearchCarRequest) returns (SearchCarResponse);
+  rpc AddToCart(AddToCartRequest) returns (AddToCartResponse);
+  rpc PlaceReservation(PlaceReservationRequest) returns (PlaceReservationResponse);
+  rpc CancelReservation(CancelReservationRequest) returns (CancelReservationResponse);
+
+    // Batch user creation (streaming input)
+  rpc CreateUsers(stream CreateUsersRequest) returns (CreateUsersResponse);
+  }

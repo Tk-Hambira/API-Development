@@ -1,0 +1,4 @@
+[package]
+org = "generated"
+name = "carrental_pb"
+version = "0.1.0"
