@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package carrental;
+
+service CarRental {
+  rpc AddCar (Car) returns (CarResponse);
+  rpc CreateUsers (stream User) returns (UserResponse);
+  rpc UpdateCar (UpdateCarRequest) returns (CarResponse);
+  rpc RemoveCar (CarPlate) returns (CarList);
+  rpc ListAvailableCars (CarFilter) returns (stream Car);
+  rpc SearchCar (CarPlate) returns (CarSearchResponse);
+  rpc AddToCart (CartItem) returns (CartResponse);
+  rpc PlaceReservation (UserId) returns (ReservationResponse);
+}
+
+message Car {
+  string plate = 1;
+  string make = 2;
+  string model = 3;
+  int32 year = 4;
+  double daily_price = 5;
+  int32 mileage = 6;
+  string status = 7;
+}
+
+message User {
+  string user_id = 1;
+  string name = 2;
+  string role = 3;
+}
+
+message UpdateCarRequest {
+  string plate = 1;
+  double daily_price = 2;
+  string status = 3;
+  int32 mileage = 4;
+}
+
+message CarPlate {
+  string plate = 1;
+}
+
+message CarResponse {
+  bool success = 1;
+  string message = 2;
+  Car car = 3;
+}
+
+message CarList {
+  repeated Car cars = 1;
+}
+
+message CarFilter {
+  string text = 1;
+}
+
+message CarSearchResponse {
+  bool found = 1;
+  string message = 2;
+  Car car = 3;
+}
+
+message CartItem {
+  string user_id = 1;
+  string plate = 2;
+  string start_date = 3;
+  string end_date = 4;
+}
+
+message CartResponse {
+  bool ok = 1;
+  string message = 2;
+}
+
+message UserId {
+  string user_id = 1;
+}
+
+message PriceQuote {
+  string plate = 1;
+  int32 days = 2;
+  double daily_price = 3;
+  double total_price = 4;
+}
+
+message Reservation {
+  string reservation_id = 1;
+  string user_id = 2;
+  repeated CartItem items = 3;
+  repeated PriceQuote quotes = 4;
+  string created_at = 5;
+}
+
+message ReservationResponse {
+  bool success = 1;
+  string message = 2;
+  Reservation reservation = 3;
+}
+
+message UserResponse {
+  int32 created_count = 1;
+  repeated string created_ids = 2;
+}
