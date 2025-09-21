@@ -1,8 +1,4 @@
 [package]
-org = "hp"
-name = "server"
+org = "carrental_system"
+name = "carrental_system"
 version = "0.1.0"
-distribution = "2201.12.7"
-
-[build-options]
-observabilityIncluded = true
