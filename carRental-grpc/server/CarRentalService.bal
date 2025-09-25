@@ -1,6 +1,7 @@
 import ballerina/io;
 import ballerina/grpc;
-import generated.carrental_pb;
+import server.generated.carrental_pb as carrental_pb;
+
 
 // In-memory data stores
 map<carrental_pb:Car> cars = {};
